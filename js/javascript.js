@@ -80,11 +80,40 @@ var cpuTurn = {
 			$("#pikachu-img").animate({
 				top: "-=25",
 
-			}, 200, function(){
+			}, 200, function() {
 				$("#pikachu-img").animate({
 					top: "+=25",
 				},200)
 			});
+			getAccuracy();
+		};
+
+		var getAccuracy = function(){
+			var setAccuracy = Math.random();
+			if(setAccuracy <= currentCPUMove.accuracy) {
+				$("#chat-text").text(cpuPokemon.name + " used " + currentCPUMove.name + "!");
+				getMoveType();
+			} else {
+				$("#chat-text").text(cpuPokemon.name + " missed with " + currentCPUMove.name + "!");
+				currentState = playerTurn;
+				setTimeout(loop, 1500)
+			}
+		};
+
+
+		var getMoveType = function() {
+			showMoveAnimation();
+			if (currentCPUMove.type == "Attack") {
+				setTimeout(attackingMove, 1500);
+			} else {
+				setTimeout(defensiveMove, 1500);
+			}
+		};
+
+		var showMoveAnimation = function(){
+			$("#attack-img").addClass("cpu-attack-img");
+			$("#attack-img").removeClass("hide");
+			$("#attack-img").fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100);
 		};
 
 		setUpCPUField();
@@ -99,7 +128,7 @@ var playerTurn = {
 
 var loop = function() {
 	if(cpuPokemon.health <=0 || userPokemon.health <=0) {
-		$(#"game-over").removeClass("hide");
+		$("#game-over").removeClass("hide");
 		console.log("Game Over");
 	} else{
 		currentState.play();
