@@ -116,6 +116,21 @@ var cpuTurn = {
 			$("#attack-img").fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100);
 		};
 
+
+		var attackingMove = function() {
+			$("#attack-img").addClass("hide");
+			$("#attack-img").removeClass("cpu-attack-img");
+			if (!cpuPokemon.effect) {
+				userPokemon.health -= currentCPUMove.power;	
+			} else {
+				userPokemon.health -= (currentCPUMove.power) - (currentCPUMove.power * cpuPokemon.effect);
+				cpuPokemon.effect = null;
+			}
+			$("#user-health-bar").css("width", userPokemon.health + "%");
+			currentState = playerTurn;
+			loop();
+		};
+
 		setUpCPUField();
 	}
 };
